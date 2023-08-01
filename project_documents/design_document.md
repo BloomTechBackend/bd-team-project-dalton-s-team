@@ -1,114 +1,127 @@
-# [team name] Design Document
+# Dalton's Design Document
 
-## Instructions
-
-*Save a copy of this template for your team in the same folder that contains
-this template.*
-
-*Replace italicized text (including this text!) with details of the design you
-are proposing for your team project. (Your replacement text shouldn't be in
-italics)*
-
-*You should take a look at the example design document in the same folder as
-this template for more guidance on the types of information to capture, and the
-level of detail to aim for.*
-
-## *Project Title* Design
+## Financial Fitness Design
 
 ## 1. Problem Statement
 
-*Explain clearly what problem you are trying to solve.*
+Financial Fitness is a budgeting service that will help its users create a budget
+and then track their spending in each category. Financial fitness will allow users to create
+their own spending categories. Users will be able to update their income and spending.
 
 
 ## 2. Top Questions to Resolve in Review
 
-*List the most important questions you have about your design, or things that
-you are still debating internally that you might like help working through.*
-
-1.   
+1.   How would I be able to incorporate real bank data into my application?
 2.   
 3.  
 
 ## 3. Use Cases
 
-*This is where we work backwards from the customer and define what our customers
-would like to do (and why). You may also include use cases for yourselves, or
-for the organization providing the product to customers.*
+U1. As a customer, I want to create a new,
+empty budget with a name and list of spending categories
 
-U1. *As a [product] customer, I want to `<result>` when I `<action>`*
-
-U2. *As a [product] customer, I want to view my grocery list when I log into the
-grocery list page*
+U2. As a customer, I want to retrieve my budget with a given ID.
     
-U3. ...
+U3. As a customer, I want to be able to update my budget name and balance.
+
+U4. As a customer, I want to be able to add or remove a spending category.
+
+U5. As a customer, I want to be able to enter my spending into a spending category.
+
+U6. As a customer, I want to be able to retrieve how much I have spent in a spending category.
 
 ## 4. Project Scope
 
-*Clarify which parts of the problem you intend to solve. It helps reviewers know
-what questions to ask to make sure you are solving for what you say and stops
-discussions from getting sidetracked by aspects you do not intend to handle in
-your design.*
-
 ### 4.1. In Scope
 
-*Which parts of the problem defined in Sections 1 and 3 will you solve with this
-design?*
+* Creating, retrieving, and updating a budget
+* Adding and retrieving a budgets list of spending categories
 
 ### 4.2. Out of Scope
 
-*Based on your problem description in Sections 1 and 3, are there any aspects
-you are not planning to solve? Do potential expansions or related problems occur
-to you that you want to explicitly say you are not worrying about now? Feel free
-to put anything here that you think your team can't accomplish in the unit, but
-would love to do with more time.*
+* Integration with banking clients
 
 # 5. Proposed Architecture Overview
 
-*Describe broadly how you are proposing to solve for the requirements you
-described in Section 3.*
+The minimum loveable product will include creating, retrieving, and updating a budget,
+as well as adding to and retrieving spending categories.
 
-*This may include class diagram(s) showing what components you are planning to
-build.*
-
-*You should argue why this architecture (organization of components) is
-reasonable. That is, why it represents a good data flow and a good separation of
-concerns. Where applicable, argue why this architecture satisfies the stated
-requirements.*
+We will use API Gateway and Lambda to create five endpoints (`GetBudget`, `CreateBudget`,
+`UpdateBudget`, `AddSpendingCategoryToBudget`, and `GetBudgetSpendingCategories`)
 
 # 6. API
 
 ## 6.1. Public Models
 
-*Define the data models your service will expose in its responses via your
-*`-Model`* package. These will be equivalent to the *`PlaylistModel`* and
-*`SongModel`* from the Unit 3 project.*
+```
+// BudgetModel
 
-## 6.2. *First Endpoint*
+String id;
+String name;
+Integer balance;
+```
 
-*Describe the behavior of the first endpoint you will build into your service
-API. This should include what data it requires, what data it returns, and how it
-will handle any known failure cases. You should also include a sequence diagram
-showing how a user interaction goes from user to website to service to database,
-and back. This first endpoint can serve as a template for subsequent endpoints.
-(If there is a significant difference on a subsequent endpoint, review that with
-your team before building it!)*
+```
+// SpendingCategoryModel
 
-*(You should have a separate section for each of the endpoints you are expecting
-to build...)*
+String name;
+Integer spendingLimit;
+Integer amountSpent;
+```
 
-## 6.3 *Second Endpoint*
+## 6.2. Get Budget Endpoint
 
-*(repeat, but you can use shorthand here, indicating what is different, likely
-primarily the data in/out and error conditions. If the sequence diagram is
-nearly identical, you can say in a few words how it is the same/different from
-the first endpoint)*
+* Accepts `GET` requests to `/budgets/:id`
+* Accepts a budget ID and returns the corresponding BudgetModel.
+  * If the given budget id is not found, will throw a `BudgetNotFoundException`
+
+
+## 6.3 Create Budget Endpoint
+
+* Accepts `POST` requests to `/budgets`
+* Accepts data to create a new budget with provided name and income.
+Returns new budget, with a unique budget ID.
+
+## 6.4 Update Budget Endpoint
+
+* Accepts `PUT` requests to `budgets/:id`
+* Accepts data to update a budget including playlist ID, an updated name, and an updated balance
+  * If the budget ID is not found, will throw a `BudgetNotFoundException`
+
+## 6.5 Add SpendingCategory to Budget Endpoint
+
+* Accepts `POST` requests to /playlists/:id/categories
+* Accepts a budget ID and a category to be added. The spending category will be created and given a unique ID.
+  * If the budget is not found, will throw a BudgetNotFoundException
+
+## 6.6 Get Budget SpendingCategories Endpoint
+
+* Accepts `GET` requests to `/budget/:id/categories`
+* Retrieves all spending categories of a budget with the given budget ID
+  * Returns the spending category list.
+* If the budget is found but has no spending categories the list will be empty
+* If the budget ID is not found. will throw a `BudgetNotFoundException`
+
 
 # 7. Tables
 
-*Define the DynamoDB tables you will need for the data your service will use. It
-may be helpful to first think of what objects your service will need, then
-translate that to a table structure, like with the *`Playlist` POJO* versus the
-`playlists` table in the Unit 3 project.*
+## 7.1 `budgets`
+
+```
+id // parition key, string
+name // string
+balance // number
+spendingCategoryList // list
+```
+
+## 7.2 `spending_categories`
+
+```
+id // parition key, string
+name // string
+spendingLimit // number
+amountSpent // number
+```
 
 # 8. Pages
 
