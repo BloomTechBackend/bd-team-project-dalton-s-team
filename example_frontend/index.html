@@ -4,21 +4,21 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="index.js" defer></script>
-    <title>Fun with JS!</title>
+    <title>Financial Fitness</title>
   </head>
   <body>
-    <h2>My Playlists</h2>
-      <ul id="playlists">
-      </ul>
-    <h2>Create a Playlist</h2>
-    <form class="card-content" id="create-playlist-form">
-      <label>Playlist Name
-        <input type="text" required class="validated-field" id="playlist-name" placeholder="smooth-jamz" autofocus>
+    <h2>Create a Budget</h2>
+    <form class="card-content" id="create-budget-form">
+      <label>Budget Name
+        <input type="text" required class="validated-field" id="budget-name" placeholder="Budgetastic" autofocus>
       </label>
-      <label>Tags
-        <input type="text" id="tags" class="tags" placeholder="tag1,tag2" data-tip="Must be a comma separated list of tags.">
+      <label>Bank Balance
+        <input type="text" id="balance" class="tags" placeholder="1000" data-tip="Must be a whole number.">
       </label>
       <input type="submit" id="create" value="Create">
     </form>
+    <div>
+        <a href="finder.html">Already have a budget? Click here.</a>
+    </div>
   </body>
 </html>

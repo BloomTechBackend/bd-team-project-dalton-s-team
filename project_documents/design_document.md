@@ -64,6 +64,8 @@ Integer balance;
 ```
 // SpendingCategoryModel
 
+String id;
+String budgetId;
 String name;
 Integer spendingLimit;
 Integer amountSpent;
@@ -90,13 +92,13 @@ Returns new budget, with a unique budget ID.
 
 ## 6.5 Add SpendingCategory to Budget Endpoint
 
-* Accepts `POST` requests to /playlists/:id/categories
+* Accepts `POST` requests to `/budgets/:id/categories`
 * Accepts a budget ID and a category to be added. The spending category will be created and given a unique ID.
   * If the budget is not found, will throw a BudgetNotFoundException
 
 ## 6.6 Get Budget SpendingCategories Endpoint
 
-* Accepts `GET` requests to `/budget/:id/categories`
+* Accepts `GET` requests to `/budgets/:id/categories`
 * Retrieves all spending categories of a budget with the given budget ID
   * Returns the spending category list.
 * If the budget is found but has no spending categories the list will be empty
@@ -118,9 +120,17 @@ spendingCategoryList // list
 
 ```
 id // parition key, string
+budgetId // sort key, string
 name // string
 spendingLimit // number
 amountSpent // number
+```
+
+## 7.3 `customer_ids`
+
+```
+id // parition key, string
+name // string
 ```
 
 # 8. Pages

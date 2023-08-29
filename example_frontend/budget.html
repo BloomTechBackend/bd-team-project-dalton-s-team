@@ -1,0 +1,63 @@
+  <head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="budget.js" defer></script>
+    <title>Add Spending Category</title>
+  </head>
+  <body>
+    <h2 id="change-text">Budget ID:</h2>
+    <h3>Spending Categories for Budget</h3>
+    <ul id="spending-categories">
+    </ul>
+    <div class="card">
+      <h3>Add Spending Category to Budget</h3>
+      <form class="card-content" id="add-spending-category-form">
+          <p class="form-field">
+            <label>Category Name
+              <input type="text" required class="validated-field" id="category-name" autofocus>
+            </label>
+          </p>
+          <p class="form-field">
+            <label>Spending Limit
+              <input type="number" id="spending-limit">
+            </label>
+          </p>
+          <p class="form-field">
+              <label>Amount Spent
+                <input type="number" id="amount-spent">
+              </label>
+          </p>
+          <input type="submit" id="add-spending-category">
+      </form>
+    </div>
+    <div class="card">
+        <h3>Update Spending Category</h3>
+        <form class="card-content" id="update-spending-category-form">
+            <p class="form-field">
+                <label>Category ID
+                    <input type="text" required class="validated-field" id="category-id">
+                </label>
+            </p>
+            <p class="form-field">
+                <label>Category Name
+                    <input type="text" class="validated-field" id="update-name">
+                </label>
+            </p>
+            <p class="form-field">
+                <label>Spending Limit
+                    <input type="number" id="update-spending-limit">
+                </label>
+            </p>
+            <p class="form-field">
+                <label>Amount Spent
+                    <input type="number" id="update-amount-spent">
+                </label>
+            </p>
+            <input type="submit" id="update-spending-category">
+        </form>
+    </div>
+    <div>
+      <a href="index.html">Create new budget</a>
+    </div>
+  </body>
+</html>
